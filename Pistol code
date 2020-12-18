@@ -1,0 +1,187 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+void ColtCock();
+void ColtShoot();
+void ColtEjectClip();
+void ColtInsertClip();
+void ColtGetClip();
+
+unsigned int coltrclip = 0;
+unsigned int coltclip = 0;
+bool coltclipin = false;
+bool coltbarrel = false;
+
+int main(void)
+{
+    unsigned int valasztas = 0;
+    if(coltbarrel == false)
+    {
+        printf("\n\nThe gun is NOT cocked");
+    }
+    if (coltbarrel == true)
+    {
+        printf("\n\nThe gun is cocked");
+    }
+    if(coltclipin == 0)
+    {
+        printf("\nYou have NO clip in the pistol");
+    }
+    if(coltclipin == 1)
+    {
+        printf("\nYou have %d bullets in the clip",coltclip);
+    }
+    printf("\nYou have %d reserved clips",coltrclip);
+
+    printf("\n\n[1]Cock the gun");
+    printf("\n[2]Shoot one bullet ");
+    printf("\n[3]Eject Clip");
+    printf("\n[4]Insert clip");
+    printf("\n[5]Get one clip");
+
+    printf("\n");
+    scanf("\n %d", &valasztas);
+
+    switch (valasztas)
+    {
+    	case 1: ColtCock();
+    	case 2: ColtShoot();
+    	case 3: ColtEjectClip();
+    	case 4: ColtInsertClip();
+    	case 5: ColtGetClip();
+        default: printf("\nInvalid input..."); main();
+    }
+}
+
+void ColtCock()
+{
+        if(coltbarrel == true)
+        {
+            if(coltclip == 0)
+            {
+                printf("\nPistol cocked...");
+                coltbarrel = false;
+                main();
+            }
+            if(coltclip > 0)
+            {
+                printf("\nPistol cocked...");
+                coltclip = coltclip - 1;
+                main();
+            }
+        }
+        if(coltbarrel == false)
+        {
+            if(coltclipin == false)
+            {
+                printf("\nCould NOT cock the pistol, you have no clip in the pistol.");
+                main();
+            }
+            if(coltclip == 0)
+            {
+                printf("\nCould NOT cock the pistol, your clip is empty");
+                main();
+            }
+            if(coltclip > 0)
+            {
+                printf("\nPistol cocked...");
+                coltclip = coltclip - 1;
+                coltbarrel = true;
+                main();
+            }
+        }
+}
+void ColtShoot()
+{
+        if (coltclipin == false)
+        {
+            if(coltbarrel == true)
+            {
+                printf("\nPOW!!!");
+                coltbarrel = 0;
+                main();
+            }
+            if(coltbarrel == false)
+            {
+                printf("\nCould NOT fire, gun has no magazine in it!");
+                main();
+            }
+        }
+        if(coltbarrel == false && coltclip==0)
+        {
+            printf("\nCould NOT fire, your gun is empty!");
+            main();
+        }
+
+        if(coltbarrel == false)
+        {
+            printf("\nCould NOT fire, gun is not cocked!");
+            main();
+        }
+        if(coltbarrel == true)
+        {
+            if (coltclip == 0)
+                {
+                    if(coltbarrel == true)
+                    {
+                        printf("\nPOW!!!");
+                        coltbarrel = false;
+                        main();
+                    }
+                    if (coltbarrel == false)
+                    {
+                        printf("\nCould NOT fire, you have no more rounds in the pistol");
+                        main();
+                    }
+                }
+            if (coltclip > 0)
+                {
+                printf("\nPOW!!!");
+                coltclip = coltclip - 1;
+                main();
+                }
+        }
+}
+void ColtEjectClip()
+{
+        if(coltclipin == false)
+        {
+            printf("\nCould NOT eject clip, no clip to eject");
+            main();
+        }
+        if(coltclipin == true)
+        {
+            printf("\nClip ejected...");
+            coltclipin = false;
+            coltclip = 0;
+            main();
+        }
+}
+void ColtInsertClip()
+{
+        if(coltclipin == true)
+        {
+            printf("\nCould NOT insert reserve clip, pistol already has a clip in it.");
+            main();
+        }
+        if(coltrclip == 0)
+        {
+            printf("\nCould NOT insert reserve clip, you have no spare magazines left");
+            main();
+        }
+        if(coltclipin == false && coltrclip>0)
+        {
+            printf("\nClip inserted...");
+            coltrclip = coltrclip -1;
+            coltclipin = true;
+            coltclip = 8;
+            main();
+        }
+}
+void ColtGetClip()
+{
+     printf("\nOne new magazine aquired...");
+     coltrclip = coltrclip + 1;
+     main();
+}
